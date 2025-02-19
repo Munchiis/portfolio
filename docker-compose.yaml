@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  # Development container with hot reload
+  dev:
+    build:
+      context: .
+      target: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      - go-mod-cache:/go/pkg/mod
+    environment:
+      - GO_ENV=development
+
+  # Production container serving static files
+  prod:
+    build:
+      context: .
+      target: production
+    ports:
+      - "8080:8080"
+
+volumes:
+  go-mod-cache:
