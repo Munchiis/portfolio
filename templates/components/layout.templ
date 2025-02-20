@@ -1,6 +1,9 @@
 package components
 
+import "time"
+
 // Layout is the main template that wraps all pages
+// It provides the HTML structure, meta tags, and common elements
 templ Layout(title string, description string) {
 	<!DOCTYPE html>
 	<html lang="en">
@@ -26,13 +29,23 @@ templ Layout(title string, description string) {
 			<header>
 				<nav>
 					<a href="/">Home</a>
+					<a href="/about">About</a>
+					<a href="/projects">Projects</a>
+					<a href="/contact">Contact</a>
 				</nav>
 			</header>
 			<main>
-				<!-- Page content -->
+				<!-- This is where page content will be inserted -->
 				{ children... }
 			</main>
+			<footer>
+				<p>© { currentYear() } - Built with Go and Templ</p>
+			</footer>
 		</body>
 	</html>
 }
 
+// Helper function to get the current year for the copyright notice
+func currentYear() string {
+	return time.Now().Format("2006")
+}
