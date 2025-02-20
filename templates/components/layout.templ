@@ -1,0 +1,38 @@
+package components
+
+// Layout is the main template that wraps all pages
+templ Layout(title string, description string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ title }</title>
+			<meta name="description" content={ description }/>
+
+			<!-- Preload CSS -->
+			<link rel="preload" href="/static/styles.css" as="style"/>
+			<link rel="stylesheet" href="/static/styles.css"/>
+
+			<!-- Open Graph tags for social sharing -->
+			<meta property="og:title" content={ title }/>
+			<meta property="og:description" content={ description }/>
+			<meta property="og:type" content="website"/>
+
+			<!-- Favicon -->
+			<link rel="icon" type="image/png" href="/static/images/favicon.png"/>
+		</head>
+		<body>
+			<header>
+				<nav>
+					<a href="/">Home</a>
+				</nav>
+			</header>
+			<main>
+				<!-- Page content -->
+				{ children... }
+			</main>
+		</body>
+	</html>
+}
+
