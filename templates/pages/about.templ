@@ -1,0 +1,74 @@
+package pages
+
+import "github.com/munchiis/go-portfolio/templates/components"
+
+// AboutPage renders the about page content
+templ AboutPage() {
+	@components.Layout("About Thomas | Full Stack Engineer", "Learn more about Juan Echevarria's professional experience, skills, and engineering journey") {
+		<section class="about-intro">
+			<h1>About Me</h1>
+			<p class="lead">
+				I'm a Full Stack Engineer passionate about building high-performance web applications and improving developer productivity.
+			</p>
+		</section>
+
+		<section class="experience">
+			<h2>Work Experience</h2>
+
+		</section>
+
+		<section class="projects-detail">
+			<h2>Project Highlights</h2>
+
+		</section>
+
+		<section class="skills-detail">
+			<h2>Technical Skills</h2>
+			<div class="skill-category">
+				<h3>Languages</h3>
+				<ul class="skill-list">
+					<li>Ruby</li>
+					<li>JavaScript/TypeScript</li>
+					<li>HTML/CSS</li>
+					<li>SQL</li>
+					<li>Go</li>
+					<li>Java</li>
+					<li>PHP</li>
+				</ul>
+			</div>
+
+			<div class="skill-category">
+				<h3>Frameworks</h3>
+				<ul class="skill-list">
+					<li>Ruby on Rails</li>
+					<li>Vue.js</li>
+					<li>React.js</li>
+					<li>VS Code Extension API</li>
+					<li>Node.js</li>
+					<li>Jest</li>
+					<li>Playwright</li>
+				</ul>
+			</div>
+
+			<div class="skill-category">
+				<h3>Development</h3>
+				<ul class="skill-list">
+					<li>Git</li>
+					<li>CI/CD</li>
+					<li>Test-Driven Development</li>
+					<li>API Design</li>
+					<li>Extension Development</li>
+				</ul>
+			</div>
+
+			<div class="skill-category">
+				<h3>Technologies</h3>
+				<ul class="skill-list">
+					<li>Docker</li>
+					<li>AWS</li>
+					<li>Microservices Architecture</li>
+				</ul>
+			</div>
+		</section>
+	}
+}
