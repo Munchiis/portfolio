@@ -1,0 +1,60 @@
+package pages
+
+import "github.com/munchiis/go-portfolio/templates/components"
+
+// HomePage renders the home page content
+templ HomePage() {
+	@components.Layout("Juan Echevarria | Full Stack Engineer", "Professional portfolio of Juan Echevarria, Full Stack Engineer with expertise in JavaScript, TypeScript, React, and more") {
+		<section class="hero">
+			<h1>Juan Echevarria</h1>
+			<p class="lead">Full Stack Engineer focused on creating efficient, scalable, and user-friendly applications</p>
+		</section>
+
+		<section class="featured-projects">
+			<h2>Featured Projects</h2>
+
+		</section>
+
+		<section class="skills">
+			<h2>Skills & Technologies</h2>
+
+			<div class="skill-category">
+				<h3>Languages</h3>
+				<ul class="skill-list">
+					<li>JavaScript/TypeScript</li>
+					<li>Ruby</li>
+					<li>HTML/CSS</li>
+					<li>SQL</li>
+					<li>Go</li>
+					<li>Java</li>
+					<li>PHP</li>
+				</ul>
+			</div>
+
+			<div class="skill-category">
+				<h3>Frameworks & Libraries</h3>
+				<ul class="skill-list">
+					<li>React.js</li>
+					<li>Vue.js</li>
+					<li>Ruby on Rails</li>
+					<li>Node.js</li>
+					<li>Jest</li>
+					<li>Playwright</li>
+				</ul>
+			</div>
+
+			<div class="skill-category">
+				<h3>Development Tools</h3>
+				<ul class="skill-list">
+					<li>Git</li>
+					<li>Docker</li>
+					<li>CI/CD</li>
+					<li>Test-Driven Development</li>
+					<li>API Design</li>
+					<li>AWS</li>
+					<li>Microservices</li>
+				</ul>
+			</div>
+		</section>
+	}
+}
