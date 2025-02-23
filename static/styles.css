@@ -1,0 +1,35 @@
+/* Neo-brutalism base styles */
+:root {
+    --primary-color: #ff5470;
+    --secondary-color: #06d6a0;
+    --tertiary-color: #ffd166;
+    --text-color: #111111;
+    --background-color: #f4f4f4;
+    --box-background: #ffffff;
+    --box-shadow: 5px 5px 0px #000000;
+    --border-width: 3px;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Courier New', monospace;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    line-height: 1.6;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  /* Typography */
+  h1, h2, h3, h4 {
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
