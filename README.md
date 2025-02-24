@@ -1,32 +1,53 @@
 # Go Portfolio
 
-A simple, fast, SEO-optimized portfolio site built with Go.
+An extremely performant, accessible, and SEO-optimized portfolio website built with Go.
 
-## Usage
+## Project Goals
 
-### Development
+- **Performance**: Optimize for Core Web Vitals and fast loading times
+- **Accessibility**: Follow WCAG guidelines for maximum accessibility
+- **SEO**: Implement best practices including structured data and semantic HTML
+- **Simplicity**: Create a maintainable codebase with clear architecture
 
-```
-make dev
-```
+## Planned Tech Stack
 
-### Building the Static Site
+- Go (Golang) for backend and build processes
+- Templ for type-safe HTML templating
+- Docker for containerized development
+- Make for build automation
+- Modern CSS techniques
+- Optimized image formats (WebP/AVIF)
 
-```
-make build
-```
-
-### Serving the Static Site
-
-```
-make serve
-```
-
-## Docker
-
-Build and run with Docker:
+## Project Structure (Planned)
 
 ```
-docker build -t go-portfolio .
-docker run -p 8080:8080 go-portfolio
+go-portfolio/
+├── cmd/              # Application entrypoints
+│   └── portfolio/    # Main portfolio application
+│       └── main.go
+├── templates/        # UI components with templ
+│   ├── components/
+│   │   └── layout.templ
+│   └── pages/
+│       ├── home.templ
+│       └── about.templ
+├── static/
+│   ├── styles.css
+│   └── images/
+├── dist/            # Generated output (gitignored)
+├── go.mod
+└── Makefile
 ```
+
+## Development (Coming Soon)
+
+Review **Makefile**
+Instructions for setting up the development environment will be added as the project progresses.
+
+## Deployment (Coming Soon)
+
+Instructions for deploying to GitHub Pages or Vercel will be added.
+
+## License
+
+MIT
