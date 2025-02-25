@@ -184,3 +184,112 @@
       padding: 1rem;
     }
   }
+
+  /* Projects */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2.5rem;
+  }
+
+  .project-card {
+    border: var(--border-width) solid var(--text-color);
+    padding: 2rem;
+    background-color: var(--box-background);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .project-card:hover {
+    transform: translate(-5px, -5px);
+    box-shadow: 10px 10px 0px #000000;
+  }
+
+  .project-card h3 {
+    border-bottom: none;
+    margin-bottom: 1rem;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 2.5rem;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background-color: var(--primary-color);
+    border: var(--border-width) solid var(--text-color);
+  }
+
+  .timeline-item {
+    margin-bottom: 3rem;
+    position: relative;
+    padding: 1.5rem;
+    border: var(--border-width) solid var(--text-color);
+    background-color: var(--box-background);
+    box-shadow: var(--box-shadow);
+  }
+
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -3rem;
+    top: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--tertiary-color);
+    border: var(--border-width) solid var(--text-color);
+    border-radius: 50%;
+  }
+
+  .timeline-date {
+    font-weight: bold;
+    font-size: 1.2rem;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+    transform: rotate(-1deg);
+  }
+
+  /* Skills */
+  .skill-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .skill-list li {
+    background-color: var(--tertiary-color);
+    padding: 0.75rem 1rem;
+    border: var(--border-width) solid var(--text-color);
+    box-shadow: var(--box-shadow);
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .skill-list li:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0px #000000;
+  }
+
+  .skill-category {
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border: var(--border-width) solid var(--text-color);
+    background-color: var(--box-background);
+    box-shadow: var(--box-shadow);
+  }
+
+  .skill-category h3 {
+    border-bottom: none;
+    margin-bottom: 1rem;
+  }
