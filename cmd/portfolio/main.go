@@ -163,8 +163,23 @@ func serveStaticFiles(port int, dir string) {
 	// Create a file server handler for the static directory
 	fs := http.FileServer(http.Dir(dir))
 
+	// Add headers for better performance and security
+	handler := addHeaders(fs)
+
 	// Start server
 	addr := fmt.Sprintf(":%d", port)
 	fmt.Printf("Serving static files from %s at http://localhost%s\n", dir, addr)
-	log.Fatal(http.ListenAndServe(addr, fs))
+	log.Fatal(http.ListenAndServe(addr, handler))
+}
+
+// addHeaders adds basic headers to the response
+func addHeaders(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Add basic security headers
+		w.Header().Set("X-Content-Type-Options", "nosniff")
+		w.Header().Set("X-Frame-Options", "DENY")
+
+		// Call the next handler
+		next.ServeHTTP(w, r)
+	})
 }
