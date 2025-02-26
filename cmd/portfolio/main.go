@@ -40,6 +40,7 @@ func main() {
 }
 
 // generateStaticSite creates a static website from our templ components
+// This function renders all templ components to HTML files
 func generateStaticSite(outputDir string) {
 	fmt.Printf("Building static site to %s\n", outputDir)
 
@@ -65,6 +66,7 @@ func generateStaticSite(outputDir string) {
 }
 
 // generatePage renders a templ component to an HTML file
+// This is used during static site generation
 func generatePage(filePath string, component templ.Component) {
 	// Ensure directory exists
 	dir := filepath.Dir(filePath)
@@ -89,6 +91,7 @@ func generatePage(filePath string, component templ.Component) {
 }
 
 // copyStaticAssets copies static files to the output directory
+// This preserves the directory structure inside the static directory
 func copyStaticAssets(outputDir string) {
 	// Walk through the static directory
 	err := filepath.Walk("static", func(path string, info fs.FileInfo, err error) error {
@@ -108,6 +111,7 @@ func copyStaticAssets(outputDir string) {
 		}
 
 		// Create the destination path
+		// This keeps the same structure as the source, but inside outputDir
 		relPath, err := filepath.Rel("static", path)
 		if err != nil {
 			return fmt.Errorf("failed to get relative path for %s: %v", path, err)
@@ -136,6 +140,7 @@ func copyStaticAssets(outputDir string) {
 }
 
 // serveDevelopmentMode serves the site with dynamic templ components
+// This allows for real-time updates during development
 func serveDevelopmentMode(port int) {
 	// Serve static files
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
@@ -159,6 +164,7 @@ func serveDevelopmentMode(port int) {
 }
 
 // serveStaticFiles serves the static site files from the specified directory
+// This is used in production mode
 func serveStaticFiles(port int, dir string) {
 	// Create a file server handler for the static directory
 	fs := http.FileServer(http.Dir(dir))
@@ -172,14 +178,44 @@ func serveStaticFiles(port int, dir string) {
 	log.Fatal(http.ListenAndServe(addr, handler))
 }
 
-// addHeaders adds basic headers to the response
+// addHeaders adds performance and security headers to the response
 func addHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Add basic security headers
+		// Cache static assets for better performance
+		if isStaticAsset(r.URL.Path) {
+			// Cache static assets for 1 year (immutable content)
+			w.Header().Set("Cache-Control", "public, max-age=31536000, immutable")
+		} else {
+			// Don't cache HTML by default
+			w.Header().Set("Cache-Control", "no-cache, must-revalidate")
+		}
+
+		// Security headers
 		w.Header().Set("X-Content-Type-Options", "nosniff")
 		w.Header().Set("X-Frame-Options", "DENY")
+		w.Header().Set("X-XSS-Protection", "1; mode=block")
+		w.Header().Set("Referrer-Policy", "strict-origin-when-cross-origin")
+		w.Header().Set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), interest-cohort=()")
 
 		// Call the next handler
 		next.ServeHTTP(w, r)
 	})
+}
+
+// isStaticAsset determines if a path is a static asset that should be cached
+func isStaticAsset(path string) bool {
+	// List of file extensions that should be cached
+	staticExtensions := []string{
+		".css", ".js", ".jpg", ".jpeg", ".png",
+		".gif", ".svg", ".woff", ".woff2", ".ttf",
+		".webp", ".avif",
+	}
+
+	ext := filepath.Ext(path)
+	for _, staticExt := range staticExtensions {
+		if ext == staticExt {
+			return true
+		}
+	}
+	return false
 }
