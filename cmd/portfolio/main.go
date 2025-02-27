@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/a-h/templ"
 	"github.com/munchiis/portfolio/templates/pages"
@@ -21,15 +22,12 @@ func main() {
 	dev := flag.Bool("dev", false, "Run in development mode")
 	build := flag.Bool("build", false, "Build static site")
 	dir := flag.String("dir", "dist", "Directory to serve/build to")
-	basePath := flag.String("base-path", "/portfolio", "Base path for assets and links") // Add this
+	basePath := flag.String("base-path", "", "Base path for assets (e.g. /portfolio for GitHub Pages)")
 	flag.Parse()
-
-	// Set environment variable for templates to use
-	os.Setenv("BASE_URL", *basePath)
 
 	// Build mode: generate static site
 	if *build {
-		generateStaticSite(*dir)
+		generateStaticSite(*dir, *basePath)
 		return
 	}
 
@@ -46,8 +44,8 @@ func main() {
 
 // generateStaticSite creates a static website from our templ components
 // This function renders all templ components to HTML files
-func generateStaticSite(outputDir string) {
-	fmt.Printf("Building static site to %s\n", outputDir)
+func generateStaticSite(outputDir string, basePath string) {
+	fmt.Printf("Building static site to %s with base path %s\n", outputDir, basePath)
 
 	// Create output directory
 	if err := os.MkdirAll(outputDir, 0755); err != nil {
@@ -64,36 +62,70 @@ func generateStaticSite(outputDir string) {
 	copyStaticAssets(outputDir)
 
 	// Generate pages from templ components
-	generatePage(filepath.Join(outputDir, "index.html"), pages.HomePage())
-	generatePage(filepath.Join(outputDir, "about", "index.html"), pages.AboutPage())
+	generatePage(filepath.Join(outputDir, "index.html"), pages.HomePage(), basePath)
+
+	// Ensure the about directory exists
+	aboutDir := filepath.Join(outputDir, "about")
+	if err := os.MkdirAll(aboutDir, 0755); err != nil {
+		log.Fatalf("Failed to create about directory: %v", err)
+	}
+	generatePage(filepath.Join(outputDir, "about", "index.html"), pages.AboutPage(), basePath)
+
+	// Create .nojekyll file to prevent GitHub Pages from using Jekyll
+	if basePath != "" {
+		noJekyllPath := filepath.Join(outputDir, ".nojekyll")
+		if err := os.WriteFile(noJekyllPath, []byte(""), 0644); err != nil {
+			log.Fatalf("Failed to create .nojekyll file: %v", err)
+		}
+	}
 
 	fmt.Println("Static site built successfully!")
 }
 
 // generatePage renders a templ component to an HTML file
 // This is used during static site generation
-func generatePage(filePath string, component templ.Component) {
+func generatePage(filePath string, component templ.Component, basePath string) {
 	// Ensure directory exists
 	dir := filepath.Dir(filePath)
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		log.Fatalf("Failed to create directory %s: %v", dir, err)
 	}
 
-	// Create a buffer to capture the rendered HTML
+	// First render to a buffer so we can adjust paths if needed
 	var buf bytes.Buffer
-
-	// Render component to buffer
 	err := component.Render(context.Background(), &buf)
 	if err != nil {
 		log.Fatalf("Failed to render component to buffer: %v", err)
 	}
 
-	// Write the HTML to the file
-	if err := os.WriteFile(filePath, buf.Bytes(), 0644); err != nil {
+	// Adjust paths for GitHub Pages if a base path is provided
+	html := buf.String()
+	if basePath != "" {
+		html = adjustPathsForGitHubPages(html, basePath)
+	}
+
+	// Write the adjusted HTML to file
+	if err := os.WriteFile(filePath, []byte(html), 0644); err != nil {
 		log.Fatalf("Failed to write file %s: %v", filePath, err)
 	}
 
 	fmt.Printf("Generated %s\n", filePath)
+}
+
+// adjustPathsForGitHubPages modifies asset paths to work with GitHub Pages
+func adjustPathsForGitHubPages(htmlContent, basePath string) string {
+	// Only make these replacements when deploying to GitHub Pages
+	if basePath != "" && basePath != "/" {
+		// Adjust paths in HTML
+		htmlContent = strings.ReplaceAll(htmlContent, `href="/static/`, `href="`+basePath+`/static/`)
+		htmlContent = strings.ReplaceAll(htmlContent, `src="/static/`, `src="`+basePath+`/static/`)
+		// Adjust navigation links
+		htmlContent = strings.ReplaceAll(htmlContent, `href="/"`, `href="`+basePath+`/"`)
+		htmlContent = strings.ReplaceAll(htmlContent, `href="/about"`, `href="`+basePath+`/about"`)
+		htmlContent = strings.ReplaceAll(htmlContent, `href="/projects"`, `href="`+basePath+`/projects"`)
+		htmlContent = strings.ReplaceAll(htmlContent, `href="/contact"`, `href="`+basePath+`/contact"`)
+	}
+	return htmlContent
 }
 
 // copyStaticAssets copies static files to the output directory

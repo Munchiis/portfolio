@@ -1,63 +1,55 @@
 package components
 
-import (
-    "time"
-    "os"
-)
+import "time"
 
-// BaseURL determines the base path for assets and links
-func BaseURL() string {
-    // Check if BASE_URL environment variable is set
-    baseURL := os.Getenv("BASE_URL")
-    if baseURL == "" {
-        // Default for GitHub Pages - change this to your repository name
-        return "/go-portfolio"
-    }
-    return baseURL
-}
+// Base URL for assets - change this when deploying to GitHub Pages
+// For local development, use "/"
+// For GitHub Pages, use "/portfolio" (or your repo name)
+const BaseURL = "/portfolio"  // Update with your repository name
 
 // Layout is the main template that wraps all pages
 templ Layout(title string, description string) {
-    <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8"/>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-            <title>{ title }</title>
-            <meta name="description" content={ description }/>
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ title }</title>
+			<meta name="description" content={ description }/>
 
-            <!-- Use string concatenation before placing into attribute -->
-            <link rel="stylesheet" href={ BaseURL() + "/static/styles.css" } />
+			<!-- Use BaseURL for asset paths -->
+			<link rel="preload" href={ BaseURL + "/static/styles.css" } as="style"/>
+			<link rel="stylesheet" href={ BaseURL + "/static/styles.css" }/>
 
-            <!-- Open Graph tags for social sharing -->
-            <meta property="og:title" content={ title }/>
-            <meta property="og:description" content={ description }/>
-            <meta property="og:type" content="website"/>
+			<!-- Open Graph tags for social sharing -->
+			<meta property="og:title" content={ title }/>
+			<meta property="og:description" content={ description }/>
+			<meta property="og:type" content="website"/>
 
-            <!-- Favicon -->
-            <link rel="icon" type="image/png" href={ BaseURL() + "/static/images/favicon.png" } />
-        </head>
-        <body>
-            <header>
-                <nav>
-                    <a href={ BaseURL() + "/" }>Home</a>
-                    <a href={ BaseURL() + "/about" }>About</a>
-                    <a href={ BaseURL() + "/projects" }>Projects</a>
-                    <a href={ BaseURL() + "/contact" }>Contact</a>
-                </nav>
-            </header>
-            <main>
-                <!-- This is where page content will be inserted -->
-                { children... }
-            </main>
-            <footer>
-                <p>© { currentYear() } - Built with Go and Templ</p>
-            </footer>
-        </body>
-    </html>
+			<!-- Favicon -->
+			<link rel="icon" type="image/png" href={ BaseURL + "/static/images/favicon.png" }/>
+		</head>
+		<body>
+			<header>
+				<nav>
+					<a href={ BaseURL + "/" }>Home</a>
+					<a href={ BaseURL + "/about" }>About</a>
+					<a href={ BaseURL + "/projects" }>Projects</a>
+					<a href={ BaseURL + "/contact" }>Contact</a>
+				</nav>
+			</header>
+			<main>
+				<!-- This is where page content will be inserted -->
+				{ children... }
+			</main>
+			<footer>
+				<p>© { currentYear() } - Built with Go and Templ</p>
+			</footer>
+		</body>
+	</html>
 }
 
 // Helper function to get the current year for the copyright notice
 func currentYear() string {
-    return time.Now().Format("2006")
+	return time.Now().Format("2006")
 }
