@@ -1,0 +1,295 @@
+/* Neo-brutalism base styles */
+:root {
+    --primary-color: #ff5470;
+    --secondary-color: #06d6a0;
+    --tertiary-color: #ffd166;
+    --text-color: #111111;
+    --background-color: #f4f4f4;
+    --box-background: #ffffff;
+    --box-shadow: 5px 5px 0px #000000;
+    --border-width: 3px;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Courier New', monospace;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    line-height: 1.6;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  /* Typography */
+  h1, h2, h3, h4 {
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+  }
+
+  h1::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background-color: var(--primary-color);
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    display: inline-block;
+    transform: rotate(-1deg);
+  }
+
+  h3 {
+    font-size: 1.75rem;
+    border-bottom: var(--border-width) solid var(--text-color);
+    display: inline-block;
+    padding-bottom: 0.25rem;
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  a {
+    color: var(--text-color);
+    text-decoration: none;
+    border-bottom: 3px solid var(--primary-color);
+    font-weight: bold;
+    transition: background-color 0.2s;
+    padding: 0 0.25rem;
+  }
+
+  a:hover {
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+  }
+
+  /* Layout */
+  header, footer {
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+  }
+
+  header {
+    border-bottom: var(--border-width) solid black;
+  }
+
+  footer {
+    border-top: var(--border-width) solid black;
+    margin-top: 4rem;
+    text-align: center;
+  }
+
+  nav {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    font-size: 1.25rem;
+    border: var(--border-width) solid var(--text-color);
+    padding: 0.5rem 1rem;
+    background-color: var(--tertiary-color);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  nav a:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0px #000000;
+    background-color: var(--tertiary-color);
+    color: var(--text-color);
+  }
+
+  section {
+    margin: 6rem 0;
+    position: relative;
+  }
+
+  /* Components */
+  .button {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    padding: 0.75rem 1.5rem;
+    border: var(--border-width) solid var(--text-color);
+    box-shadow: var(--box-shadow);
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-transform: uppercase;
+  }
+
+  .button:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0px #000000;
+    text-decoration: none;
+  }
+
+  .highlight {
+    background-color: var(--tertiary-color);
+    padding: 0 0.5rem;
+    font-style: italic;
+  }
+
+  .lead {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: var(--secondary-color);
+    padding: 1rem;
+    border: var(--border-width) solid var(--text-color);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+    }
+
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+
+    body {
+      padding: 1rem;
+    }
+  }
+
+  /* Projects */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2.5rem;
+  }
+
+  .project-card {
+    border: var(--border-width) solid var(--text-color);
+    padding: 2rem;
+    background-color: var(--box-background);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .project-card:hover {
+    transform: translate(-5px, -5px);
+    box-shadow: 10px 10px 0px #000000;
+  }
+
+  .project-card h3 {
+    border-bottom: none;
+    margin-bottom: 1rem;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 2.5rem;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background-color: var(--primary-color);
+    border: var(--border-width) solid var(--text-color);
+  }
+
+  .timeline-item {
+    margin-bottom: 3rem;
+    position: relative;
+    padding: 1.5rem;
+    border: var(--border-width) solid var(--text-color);
+    background-color: var(--box-background);
+    box-shadow: var(--box-shadow);
+  }
+
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -3rem;
+    top: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--tertiary-color);
+    border: var(--border-width) solid var(--text-color);
+    border-radius: 50%;
+  }
+
+  .timeline-date {
+    font-weight: bold;
+    font-size: 1.2rem;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+    transform: rotate(-1deg);
+  }
+
+  /* Skills */
+  .skill-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .skill-list li {
+    background-color: var(--tertiary-color);
+    padding: 0.75rem 1rem;
+    border: var(--border-width) solid var(--text-color);
+    box-shadow: var(--box-shadow);
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .skill-list li:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0px #000000;
+  }
+
+  .skill-category {
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border: var(--border-width) solid var(--text-color);
+    background-color: var(--box-background);
+    box-shadow: var(--box-shadow);
+  }
+
+  .skill-category h3 {
+    border-bottom: none;
+    margin-bottom: 1rem;
+  }
