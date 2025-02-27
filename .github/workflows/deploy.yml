@@ -2,8 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [master]
-  workflow_dispatch: # Allows manual triggering from GitHub UI
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -15,7 +15,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: "1.21"
+          go-version: '1.21'
 
       - name: Install templ
         run: go install github.com/a-h/templ/cmd/templ@latest
@@ -24,15 +24,23 @@ jobs:
         run: |
           # Generate templ files
           templ generate
-
+          
           # Create dist directory if it doesn't exist
           mkdir -p dist
-
+          
+          # Set the base path environment variable
+          export BASE_URL="/portfolio"
+          
           # Build the static site
-          go run ./cmd/portfolio/main.go --build --dir ./dist
-
+          go run ./cmd/portfolio/main.go --build --dir ./dist --base-path "/portfolio"
+          
           # Create .nojekyll file to prevent Jekyll processing
           touch dist/.nojekyll
+          
+          # Create a copy of about/index.html at about.html for GitHub Pages navigation
+          if [ -f dist/about/index.html ]; then
+            cp dist/about/index.html dist/about.html
+          fi
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
