@@ -11,7 +11,7 @@ func BaseURL() string {
     baseURL := os.Getenv("BASE_URL")
     if baseURL == "" {
         // Default for GitHub Pages - change this to your repository name
-        return "/portfolio"
+        return "/go-portfolio"
     }
     return baseURL
 }
@@ -26,8 +26,8 @@ templ Layout(title string, description string) {
             <title>{ title }</title>
             <meta name="description" content={ description }/>
 
-            <!-- Use BaseURL for asset paths -->
-            <link rel="stylesheet" href={ BaseURL() + "/static/styles.css" }/>
+            <!-- Use string concatenation before placing into attribute -->
+            <link rel="stylesheet" href={ BaseURL() + "/static/styles.css" } />
 
             <!-- Open Graph tags for social sharing -->
             <meta property="og:title" content={ title }/>
@@ -35,7 +35,7 @@ templ Layout(title string, description string) {
             <meta property="og:type" content="website"/>
 
             <!-- Favicon -->
-            <link rel="icon" type="image/png" href={ BaseURL() + "/static/images/favicon.png" }/>
+            <link rel="icon" type="image/png" href={ BaseURL() + "/static/images/favicon.png" } />
         </head>
         <body>
             <header>
