@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"flag"
 	"fmt"
@@ -11,7 +12,7 @@ import (
 	"path/filepath"
 
 	"github.com/a-h/templ"
-	"github.com/munchiis/go-portfolio/templates/pages"
+	"github.com/munchiis/portfolio/templates/pages"
 )
 
 func main() {
@@ -20,7 +21,11 @@ func main() {
 	dev := flag.Bool("dev", false, "Run in development mode")
 	build := flag.Bool("build", false, "Build static site")
 	dir := flag.String("dir", "dist", "Directory to serve/build to")
+	basePath := flag.String("base-path", "/portfolio", "Base path for assets and links") // Add this
 	flag.Parse()
+
+	// Set environment variable for templates to use
+	os.Setenv("BASE_URL", *basePath)
 
 	// Build mode: generate static site
 	if *build {
@@ -74,17 +79,18 @@ func generatePage(filePath string, component templ.Component) {
 		log.Fatalf("Failed to create directory %s: %v", dir, err)
 	}
 
-	// Create file
-	file, err := os.Create(filePath)
-	if err != nil {
-		log.Fatalf("Failed to create file %s: %v", filePath, err)
-	}
-	defer file.Close()
+	// Create a buffer to capture the rendered HTML
+	var buf bytes.Buffer
 
-	// Render component to file
-	err = component.Render(context.Background(), file)
+	// Render component to buffer
+	err := component.Render(context.Background(), &buf)
 	if err != nil {
-		log.Fatalf("Failed to render component to %s: %v", filePath, err)
+		log.Fatalf("Failed to render component to buffer: %v", err)
+	}
+
+	// Write the HTML to the file
+	if err := os.WriteFile(filePath, buf.Bytes(), 0644); err != nil {
+		log.Fatalf("Failed to write file %s: %v", filePath, err)
 	}
 
 	fmt.Printf("Generated %s\n", filePath)

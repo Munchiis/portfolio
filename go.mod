@@ -1,4 +1,4 @@
-module github.com/munchiis/go-portfolio
+module github.com/munchiis/portfolio
 
 go 1.24.0
 

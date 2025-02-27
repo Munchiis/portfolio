@@ -21,7 +21,7 @@ An extremely performant, accessible, and SEO-optimized portfolio website built w
 ## Project Structure (Planned)
 
 ```
-go-portfolio/
+portfolio/
 ├── cmd/              # Application entrypoints
 │   └── portfolio/    # Main portfolio application
 │       └── main.go
