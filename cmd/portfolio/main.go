@@ -16,6 +16,39 @@ import (
 	"github.com/munchiis/portfolio/templates/pages"
 )
 
+func getProjects() []pages.Project {
+	return []pages.Project{
+		{
+			Title:        "React Component Library",
+			Description:  "A TypeScript-based component library with Storybook documentation, converting Figma mockups into reusable UI components.",
+			ImageURL:     "/static/images/projects/component-library.jpg",
+			Technologies: []string{"React", "TypeScript", "Storybook", "Styled Components"},
+			GithubURL:    "#",
+		},
+		{
+			Title:        "VSCode Extension -- Saucy",
+			Description:  "Extension that integrates gitlab merge request comments into your code editor.",
+			ImageURL:     "/static/images/projects/vscode-extension.jpg",
+			Technologies: []string{"TypeScript", "VSCode API", "WebSockets"},
+			GithubURL:    "https://github.com/Munchiis/gitlabExtension",
+		},
+		{
+			Title:        "VSCode Extension -- TimeSplitters",
+			Description:  "extension that helps developers track and visualize time spent on different Git branches, providing insights into work patterns and improving time management.",
+			ImageURL:     "/static/images/projects/vscode-extension.jpg",
+			Technologies: []string{"TypeScript", "VSCode API", "WebSockets"},
+			GithubURL:    "https://github.com/Munchiis/vscode-timeSplitters",
+		},
+		{
+			Title:        "Developer Productivity Tools",
+			Description:  "CLI tools built with TypeScript & Node.js to automate repetitive tasks and streamline Git workflows.",
+			ImageURL:     "/static/images/projects/dev-tools.jpg",
+			Technologies: []string{"Node.js", "TypeScript", "CLI"},
+			GithubURL:    "#",
+		},
+	}
+}
+
 func main() {
 	// Command line flags
 	port := flag.Int("port", 8080, "Port to serve on")
@@ -70,6 +103,7 @@ func generateStaticSite(outputDir string, basePath string) {
 		log.Fatalf("Failed to create about directory: %v", err)
 	}
 	generatePage(filepath.Join(outputDir, "about", "index.html"), pages.AboutPage(), basePath)
+	generatePage(filepath.Join(outputDir, "projects", "index.html"), pages.ProjectsPage(getProjects()), basePath)
 	generatePage(filepath.Join(outputDir, "contact", "index.html"), pages.ContactPage(), basePath)
 	generatePage(filepath.Join(outputDir, "thanks", "index.html"), pages.ThanksPage(), basePath)
 
@@ -196,6 +230,9 @@ func serveDevelopmentMode(port int) {
 			pages.HomePage().Render(r.Context(), w)
 		case "/about", "/about/index.html":
 			pages.AboutPage().Render(r.Context(), w)
+		case "/projects", "/projects/index.html":
+			projects := getProjects()
+			pages.ProjectsPage(projects).Render(r.Context(), w)
 		case "/contact", "/contact/index.html":
 			pages.ContactPage().Render(r.Context(), w)
 		case "/thanks", "/thanks/index.html":
