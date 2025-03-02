@@ -70,6 +70,8 @@ func generateStaticSite(outputDir string, basePath string) {
 		log.Fatalf("Failed to create about directory: %v", err)
 	}
 	generatePage(filepath.Join(outputDir, "about", "index.html"), pages.AboutPage(), basePath)
+	generatePage(filepath.Join(outputDir, "contact", "index.html"), pages.ContactPage(), basePath)
+	generatePage(filepath.Join(outputDir, "thanks", "index.html"), pages.ThanksPage(), basePath)
 
 	// Create .nojekyll file to prevent GitHub Pages from using Jekyll
 	if basePath != "" {
@@ -124,6 +126,10 @@ func adjustPathsForGitHubPages(htmlContent, basePath string) string {
 		htmlContent = strings.ReplaceAll(htmlContent, `href="/about"`, `href="`+basePath+`/about"`)
 		htmlContent = strings.ReplaceAll(htmlContent, `href="/projects"`, `href="`+basePath+`/projects"`)
 		htmlContent = strings.ReplaceAll(htmlContent, `href="/contact"`, `href="`+basePath+`/contact"`)
+		htmlContent = strings.ReplaceAll(htmlContent, `href="/thanks"`, `href="`+basePath+`/thanks"`)
+		htmlContent = strings.ReplaceAll(htmlContent,
+			`value="https://munchiis.github.io/portfolio/thanks"`,
+			`value="https://munchiis.github.io`+basePath+`/thanks"`)
 	}
 	return htmlContent
 }
@@ -190,6 +196,10 @@ func serveDevelopmentMode(port int) {
 			pages.HomePage().Render(r.Context(), w)
 		case "/about", "/about/index.html":
 			pages.AboutPage().Render(r.Context(), w)
+		case "/contact", "/contact/index.html":
+			pages.ContactPage().Render(r.Context(), w)
+		case "/thanks", "/thanks/index.html":
+			pages.ThanksPage().Render(r.Context(), w)
 		default:
 			http.NotFound(w, r)
 		}
