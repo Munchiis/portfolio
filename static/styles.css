@@ -530,6 +530,10 @@
   padding: 1.5rem;
 }
 
+.project-content > h2 {
+  font-size: 2rem;
+}
+
 .project-tech {
   margin: 1rem 0;
   display: flex;

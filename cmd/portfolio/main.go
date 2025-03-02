@@ -27,7 +27,7 @@ func getProjects() []pages.Project {
 		{
 			Title:        "VSCode Extension -- TimeSplitters",
 			Description:  "Extension that helps developers track and visualize time spent on different Git branches, providing insights into work patterns and improving time management.",
-			Technologies: []string{"TypeScript", "VSCode API", "WebSockets"},
+			Technologies: []string{"TypeScript", "VSCode API"},
 			GithubURL:    "https://github.com/Munchiis/vscode-timeSplitters",
 		},
 		{
