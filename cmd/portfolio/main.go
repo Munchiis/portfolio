@@ -19,12 +19,6 @@ import (
 func getProjects() []pages.Project {
 	return []pages.Project{
 		{
-			Title:        "React Component Library",
-			Description:  "A TypeScript-based component library with Storybook documentation, converting Figma mockups into reusable UI components.",
-			Technologies: []string{"React", "TypeScript", "Storybook", "Styled Components"},
-			GithubURL:    "#",
-		},
-		{
 			Title:        "VSCode Extension -- Saucy",
 			Description:  "Extension that integrates gitlab merge request comments into your code editor.",
 			Technologies: []string{"TypeScript", "VSCode API", "WebSockets"},
@@ -32,15 +26,15 @@ func getProjects() []pages.Project {
 		},
 		{
 			Title:        "VSCode Extension -- TimeSplitters",
-			Description:  "extension that helps developers track and visualize time spent on different Git branches, providing insights into work patterns and improving time management.",
+			Description:  "Extension that helps developers track and visualize time spent on different Git branches, providing insights into work patterns and improving time management.",
 			Technologies: []string{"TypeScript", "VSCode API", "WebSockets"},
 			GithubURL:    "https://github.com/Munchiis/vscode-timeSplitters",
 		},
 		{
-			Title:        "Developer Productivity Tools",
-			Description:  "CLI tools built with TypeScript & Node.js to automate repetitive tasks and streamline Git workflows.",
-			Technologies: []string{"Node.js", "TypeScript", "CLI"},
-			GithubURL:    "#",
+			Title:        "Stock Viewer",
+			Description:  "Stock simple viewer",
+			Technologies: []string{"TypeScript"},
+			GithubURL:    "https://github.com/Munchiis/stocks-viewer",
 		},
 	}
 }
